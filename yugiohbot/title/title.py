@@ -3,7 +3,7 @@ import random
 import csv
 
 
-def parseExistingTitles(file):
+def parse_existing_titles(file):
     existing_names = []
 
     # Read in the card names from a CSV file to a list.
@@ -40,7 +40,7 @@ def dedup(seq):
     return [x for x in seq if not (x in seen or seen_add(x))]
 
 
-def createNewTitle(nouns, adjectives):
+def create_new_title(nouns, adjectives):
     nouns_adjectives_dict = {'nouns': nouns, 'adjectives': adjectives}
 
     no_sections = random.randint(1, 2)  # Select how many sections the title will have. Min 1, Max 2.
@@ -99,8 +99,8 @@ def createNewTitle(nouns, adjectives):
 
 
 if __name__ == '__main__':
-    n, a = parseExistingTitles('cards_api.csv')
+    n, a = parse_existing_titles('cards_api.csv')
 
     print(n)
     print(a)
-    print(createNewTitle(n, a))
+    print(create_new_title(n, a))

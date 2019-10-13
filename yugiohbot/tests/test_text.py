@@ -2,7 +2,7 @@ import csv
 import os
 import unittest
 
-import text
+from text import *
 
 
 class TestTextGenerator(unittest.TestCase):
@@ -31,11 +31,11 @@ class TestTextGenerator(unittest.TestCase):
         os.remove(self.test_csv_file)
 
     def test_split_description_with_valid_csv(self):
-        phrases = text.splitDescriptions(self.test_csv_file)
+        phrases = text.split_descriptions(self.test_csv_file)
         self.assertEqual(len(phrases), 5)
 
     def test_split_description_with_invalid_csv(self):
-        phrases = text.splitDescriptions('badfile.csv')
+        phrases = text.split_descriptions('badfile.csv')
         self.assertEqual(len(phrases), 0)
 
 

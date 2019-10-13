@@ -6,7 +6,7 @@ import re
 import nltk.data
 
 
-def generateCardText(phrases):
+def generate_card_text(phrases):
     rand = random.sample(range(1, len(phrases)), random.randint(1, 5))
     text = []
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
@@ -41,7 +41,7 @@ def generateCardText(phrases):
     return result
 
 
-def splitDescriptions(file):
+def split_descriptions(file):
     existing_desc = []
 
     try:
@@ -72,6 +72,6 @@ def splitDescriptions(file):
 
 
 if __name__ == '__main__':
-    p = splitDescriptions('cards_api.csv')
+    p = split_descriptions('cards_api.csv')
     for i in range(5):
-        print(generateCardText(p))
+        print(generate_card_text(p))
