@@ -38,6 +38,21 @@ class TestTextGenerator(unittest.TestCase):
         phrases = text.split_descriptions('badfile.csv')
         self.assertEqual(len(phrases), 0)
 
+    def test_generate_card_text_with_five_valid_phrases(self):
+        phrases = [['here', 'are'], ['some', 'phrases'], ['that', 'will'], ['work'], ['I', 'hope']]
+        t = text.generate_card_text(phrases)
+        self.assertTrue(t != "")
+
+    def test_generate_card_text_fewer_than_five_valid_phrases(self):
+        phrases = [['some', 'phrases'], ['that', 'will'], ['work', 'I', 'hope']]
+        t = text.generate_card_text(phrases)
+        self.assertTrue(t != "")
+
+    def test_generate_card_text_empty_phrases(self):
+        phrases = []
+        t = text.generate_card_text(phrases)
+        self.assertTrue(t == "")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -7,7 +7,11 @@ import nltk.data
 
 
 def generate_card_text(phrases):
-    rand = random.sample(range(1, len(phrases)), random.randint(1, 5))
+    if len(phrases) == 0:
+        return ""
+
+    sample_range = 5 if len(phrases) >= 5 else len(phrases)
+    rand = random.sample(range(len(phrases)), random.randint(1, sample_range))
     text = []
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
     prohibited = [',', ':', ';', '-']
@@ -69,9 +73,3 @@ def split_descriptions(file):
         phrases.append(p)
 
     return phrases
-
-
-if __name__ == '__main__':
-    p = split_descriptions('cards_api.csv')
-    for i in range(5):
-        print(generate_card_text(p))
