@@ -6,8 +6,12 @@ import re
 import nltk.data
 
 
-def generateCardText(phrases):
-    rand = random.sample(range(1, len(phrases)), random.randint(1, 5))
+def generate_card_text(phrases):
+    if len(phrases) == 0:
+        return ""
+
+    sample_range = 5 if len(phrases) >= 5 else len(phrases)
+    rand = random.sample(range(len(phrases)), random.randint(1, sample_range))
     text = []
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
     prohibited = [',', ':', ';', '-']
@@ -41,7 +45,7 @@ def generateCardText(phrases):
     return result
 
 
-def splitDescriptions(file):
+def split_descriptions(file):
     existing_desc = []
 
     try:
@@ -53,8 +57,6 @@ def splitDescriptions(file):
     except FileNotFoundError as fe:
         logging.debug('File: ' + file + ' could not be found.\n' + str(fe))
         return existing_desc
-    except Exception as e:
-        logging.debug('An unexpected error occured: ' + str(e))
 
     phrases = []
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
@@ -69,9 +71,3 @@ def splitDescriptions(file):
         phrases.append(p)
 
     return phrases
-
-
-if __name__ == '__main__':
-    p = splitDescriptions('cards_api.csv')
-    for i in range(5):
-        print(generateCardText(p))

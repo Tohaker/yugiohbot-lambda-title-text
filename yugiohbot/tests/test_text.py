@@ -2,7 +2,7 @@ import csv
 import os
 import unittest
 
-import text
+from text import *
 
 
 class TestTextGenerator(unittest.TestCase):
@@ -31,12 +31,28 @@ class TestTextGenerator(unittest.TestCase):
         os.remove(self.test_csv_file)
 
     def test_split_description_with_valid_csv(self):
-        phrases = text.splitDescriptions(self.test_csv_file)
+        phrases = text.split_descriptions(self.test_csv_file)
         self.assertEqual(len(phrases), 5)
 
     def test_split_description_with_invalid_csv(self):
-        phrases = text.splitDescriptions('badfile.csv')
+        phrases = text.split_descriptions('badfile.csv')
         self.assertEqual(len(phrases), 0)
+
+    def test_generate_card_text_with_five_valid_phrases(self):
+        phrases = [['here.', 'are.'], ['some.', 'phrases,'], ['that;', 'will:'], ['work.'], ['I.', 'hope,']]
+        t = text.generate_card_text(phrases)
+        self.assertTrue(t != "")
+        self.assertTrue(t[-1:] != ",")
+
+    def test_generate_card_text_fewer_than_five_valid_phrases(self):
+        phrases = [['some', 'phrases'], ['that', 'will'], ['work', 'I', 'hope']]
+        t = text.generate_card_text(phrases)
+        self.assertTrue(t != "")
+
+    def test_generate_card_text_empty_phrases(self):
+        phrases = []
+        t = text.generate_card_text(phrases)
+        self.assertTrue(t == "")
 
 
 if __name__ == '__main__':
