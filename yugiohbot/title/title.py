@@ -1,25 +1,29 @@
-from textblob import TextBlob
-import random
 import csv
+import random
+import logging
+
+from textblob import TextBlob
 
 
 def parse_existing_titles(file):
     existing_names = []
-
-    # Read in the card names from a CSV file to a list.
-    with open(file, encoding="utf8") as csvfile:
-        read_csv = csv.reader(csvfile)
-        for row in read_csv:
-            if read_csv.line_num != 1:
-                existing_names.append(row[1])
-
     nouns = []
     adjectives = []
+
+    # Read in the card names from a CSV file to a list.
+    try:
+        with open(file, encoding="utf8") as csvfile:
+            read_csv = csv.reader(csvfile)
+            for row in read_csv:
+                if read_csv.line_num != 1:
+                    existing_names.append(row[1])
+    except FileNotFoundError as fe:
+        logging.debug('File: ' + file + ' could not be found.\n' + str(fe))
+        return nouns, adjectives
 
     # Read each card name into a TextBlob and extract the noun into a list.
     for name in existing_names:
         blob = TextBlob(name)
-        # print(blob.tags)
 
         for word, pos in blob.tags:
             if pos == 'NNP':
@@ -41,7 +45,12 @@ def dedup(seq):
 
 
 def create_new_title(nouns, adjectives):
-    nouns_adjectives_dict = {'nouns': nouns, 'adjectives': adjectives}
+    if len(nouns) == 0:
+        return ""
+    elif len(nouns) > 0 and len(adjectives) == 0:
+        nouns_adjectives_dict = {'nouns': nouns}
+    else:
+        nouns_adjectives_dict = {'nouns': nouns, 'adjectives': adjectives}
 
     no_sections = random.randint(1, 2)  # Select how many sections the title will have. Min 1, Max 2.
     title_section = []
@@ -52,8 +61,7 @@ def create_new_title(nouns, adjectives):
         component = []
         component_pos = []
 
-        j = 0
-        while j < no_components:
+        for j in range(no_components):
             if len(component) < 1:
                 random_pos = random.choice(list(nouns_adjectives_dict.keys()))  # Choose either a noun or an adjective
                 random_word = random.choice(nouns_adjectives_dict[random_pos])  # Select a random value from the POS
@@ -65,8 +73,6 @@ def create_new_title(nouns, adjectives):
                     no_components += 1  # An adjective can't be the only word, so we add an extra one if one is chosen.
             else:
                 component.append(random.choice(nouns))  # Get a new random noun
-
-            j += 1
 
         title_section.append(component)
         title_section_pos.append(component_pos)
@@ -96,11 +102,3 @@ def create_new_title(nouns, adjectives):
             final_title += word + ' '
 
     return final_title
-
-
-if __name__ == '__main__':
-    n, a = parse_existing_titles('cards_api.csv')
-
-    print(n)
-    print(a)
-    print(create_new_title(n, a))
