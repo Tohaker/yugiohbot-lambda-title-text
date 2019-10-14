@@ -39,7 +39,7 @@ class TestTextGenerator(unittest.TestCase):
         self.assertEqual(len(phrases), 0)
 
     def test_generate_card_text_with_five_valid_phrases(self):
-        phrases = [['here', 'are.'], ['some', 'phrases,'], ['that', 'will'], ['work'], ['I', 'hope']]
+        phrases = [['here.', 'are.'], ['some.', 'phrases,'], ['that;', 'will:'], ['work.'], ['I.', 'hope,']]
         t = text.generate_card_text(phrases)
         self.assertTrue(t != "")
         self.assertTrue(t[-1:] != ",")
