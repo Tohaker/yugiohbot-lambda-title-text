@@ -57,8 +57,6 @@ def split_descriptions(file):
     except FileNotFoundError as fe:
         logging.debug('File: ' + file + ' could not be found.\n' + str(fe))
         return existing_desc
-    except Exception as e:
-        logging.debug('An unexpected error occured: ' + str(e))
 
     phrases = []
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
