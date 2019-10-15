@@ -9,20 +9,19 @@ services:
   - docker
 
 install:
-  - mkdir -p ~/yugiohbot-lambda-title-text/package/nltk-data/
+  - mkdir -p package/nltk-data/
   - pip install -r requirements.txt
   - pip install -r requirements.txt -t package
   - python -m nltk.downloader punkt averaged_perceptron_tagger wordnet
-  - cp -r ~/nltk_data/ ~/yugiohbot-lambda-title-text/package/nltk-data/
-  - cp -r ~/yugiohbot-lambda-title-text/yugiohbot/ ~/yugiohbot-lambda-title-text/package/
+  - cp -r ~/nltk_data/ package/nltk-data/
+  - cp -r yugiohbot/ package/
   - docker pull lambci/lambda:python3.7
 
 script:
   - pytest --cov=./ --ignore=package
   - |
     docker run -e NLTK_DATA=/var/task/nltk_data -e AWS_LAMBDA_FUNCTION_MEMORY_SIZE=128 --rm
-    -v ~/yugiohbot-lambda-title-text/package:/var/task lambci/lambda:python3.7
-    lambda_function.lambda_handler | grep -q 'title' && exit 1
+    -v package:/var/task lambci/lambda:python3.7 lambda_function.lambda_handler | grep -q 'title' && exit 1
 
 after_success:
   - codecov
