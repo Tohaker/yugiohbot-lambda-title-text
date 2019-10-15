@@ -9,13 +9,12 @@ services:
   - docker
 
 install:
-  - mkdir -p package/nltk-data/
+  - mkdir -p package/nltk_data/
   - pip install -r requirements.txt
   - pip install -r requirements.txt -t package
   - python -m nltk.downloader punkt averaged_perceptron_tagger wordnet
-  - cp -a ~/nltk_data/ package/nltk-data/
+  - cp -a ~/nltk_data/ package/nltk_data/
   - cp -a yugiohbot/. package/
-  - ls -la package
   - docker pull lambci/lambda:python3.7
 
 script:
