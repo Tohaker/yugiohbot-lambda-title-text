@@ -5,11 +5,22 @@ python:
 env:
   - PYTHONPATH=yugiohbot
 
-install:
-  - pip install -r requirements.txt
-  - python -m nltk.downloader all
+services:
+  - docker
 
-script: pytest --cov=./
+install:
+  - mkdir package
+  - pip install -r requirements.txt -t package
+  - python -m nltk.downloader punkt averaged_perceptron_tagger
+  - cp -r ~/nltk_data/ ~/yugiohbot-lambda-title-text/package/nltk-data/
+  - docker pull lambci/lambda:python3.7
+
+script:
+  - pytest --cov=./
+  - |
+    docker run -e NLTK_DATA=/var/task/nltk_data -e AWS_LAMBDA_FUNCTION_MEMORY_SIZE=128 --rm
+    -v ~/yugiohbot-lambda-title-text/package:/var/task lambci/lambda:python3.7
+    lambda_function.lambda_handler | grep -q 'title' && exit 1
 
 after_success:
   - codecov
