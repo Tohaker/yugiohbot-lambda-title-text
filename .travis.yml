@@ -10,6 +10,7 @@ services:
 
 install:
   - mkdir package
+  - pip install -r requirements.txt
   - pip install -r requirements.txt -t package
   - python -m nltk.downloader punkt averaged_perceptron_tagger
   - cp -r ~/nltk_data/ ~/yugiohbot-lambda-title-text/package/nltk-data/
