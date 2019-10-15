@@ -15,6 +15,7 @@ install:
   - python -m nltk.downloader punkt averaged_perceptron_tagger wordnet
   - cp -r ~/nltk_data/ package/nltk-data/
   - cp -r yugiohbot/ package/
+  - ls -la package
   - docker pull lambci/lambda:python3.7
 
 script:
