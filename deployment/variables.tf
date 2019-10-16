@@ -24,5 +24,5 @@ variable "handler" {
 
 variable "runtime" {
   description = "The runtime language to be used."
-  default = "python.3.7"
+  default = "python3.7"
 }
