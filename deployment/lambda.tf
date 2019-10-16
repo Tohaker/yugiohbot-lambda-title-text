@@ -4,7 +4,7 @@ resource "aws_lambda_function" "title_text" {
   handler           = var.handler
 
   function_name     = local.lambda_title_text_name
-  role              = aws_iam_role.lambda_title_text
+  role              = aws_iam_role.lambda_title_text.arn
   
   runtime           = var.runtime
   timeout           = 60
