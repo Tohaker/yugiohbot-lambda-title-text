@@ -8,19 +8,35 @@ env:
 services:
   - docker
 
+addons:
+  apt:
+    update: true
+
+before_install:
+  - sudo apt-get install -y zip unzip
+  - wget https://releases.hashicorp.com/terraform/${TERRAFORM}/terraform_${TERRAFORM}_linux_amd64.zip
+  - unzip terraform_${TERRAFORM}_linux_amd64.zip
+  - sudo mv terraform /usr/local/bin/
+  - terraform --version
+  - pip install -r requirements.txt
+  - python -m nltk.downloader punkt averaged_perceptron_tagger wordnet
+
 install:
   - mkdir -p package/nltk_data/
-  - pip install -r requirements.txt
   - pip install -r requirements.txt -t package
-  - python -m nltk.downloader punkt averaged_perceptron_tagger wordnet
   - cp -a ~/nltk_data/. package/nltk_data/
   - cp -a yugiohbot/. package/
+  - zip -r package package/.
   - chmod +x ./integration.sh
+  - chmod +x ./deployment/deploy.sh
   - docker pull lambci/lambda:python3.7
 
 script:
   - pytest --cov=./ --ignore=package
   - ./integration.sh
-
-after_success:
   - codecov
+
+after_script:
+  - cd package
+  - zip -r ../package.zip *
+  - ../deployment/deploy.sh
