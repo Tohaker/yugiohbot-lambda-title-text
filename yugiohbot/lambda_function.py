@@ -11,7 +11,10 @@ def lambda_handler(event, context):
     phrases = text.split_descriptions(source_file)
     card_text = text.generate_card_text(phrases)
 
-    return {'title': card_title, 'text': card_text}
+    result = {'title': card_title, 'text': card_text}
+    print(result)
+
+    return result
 
 
 if __name__ == '__main__':
