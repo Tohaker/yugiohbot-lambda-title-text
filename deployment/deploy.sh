@@ -20,8 +20,8 @@ aws s3 cp ../package.zip s3://021651181835-lambda-packages/yugiohbot-title-text-
 echo "Initialising Terraform."
 terraform init \
     -backend=true \
-    -backend-config="access_key=${AWS_ACCESS_KEY}" \
-    -backend-config="secret_key=${AWS_SECRET_KEY}"
+    -backend-config="access_key=${AWS_ACCESS_KEY_ID}" \
+    -backend-config="secret_key=${AWS_SECRET_ACCESS_KEY}"
 
 echo "Planning Terraform."
 terraform plan \

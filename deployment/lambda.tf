@@ -31,7 +31,7 @@ resource "aws_cloudwatch_event_rule" "every_hour" {
 
 resource "aws_cloudwatch_event_target" "every_hour" {
   rule      = aws_cloudwatch_event_rule.every_hour.name
-  target_id = "create_new_card"
+  target_id = "generate_new_title_and_text"
   arn       = aws_lambda_function.title_text.arn
 }
 
