@@ -14,6 +14,9 @@ pushd ${current_directory}
 
 set -e
 
+echo "Uploading package file to S3"
+aws s3 cp ../package.zip s3://021651181835-lambda-packages/yugiohbot-title-text-package.zip
+
 echo "Initialising Terraform."
 terraform init \
     -backend=true \
@@ -28,4 +31,3 @@ echo "Applying Terraform."
 terraform apply \
     -auto-approve \
     "output.tfplan"
-

@@ -18,7 +18,7 @@ EOF
 }
 
 resource "aws_iam_policy" "lambda_logging" {
-  name        = "CloudWatchLambdaLogging"
+  name        = "YuGiOhTitleTextLambdaLogging"
   description = "Create and Write to all CloudWatch Logs."
 
   policy      = <<EOF
@@ -39,7 +39,7 @@ EOF
 }
 
 resource "aws_iam_policy" "invoke_lambda" {
-  name        = "InvokeLambdaFunction"
+  name        = "InvokeYuGiOhTitleTextLambdaFunction"
   description = "Allows invokation of another Lambda Function."
 
   policy      = <<EOF

@@ -7,9 +7,19 @@ variable "region" {
   default = "eu-west-2"
 }
 
-variable "package" {
-  description = "The location of the package.zip to deploy."
+variable "s3_package" {
+  description = "The name of the package to deploy in S3."
+  default = "yugiohbot-title-text-package.zip"
+}
+
+variable "local_package" {
+  description = "The location of the package to deploy."
   default = "../package.zip"
+}
+
+variable "bucket" {
+  description = "The S3 bucket where the package is stored."
+  default = "021651181835-lambda-packages"
 }
 
 variable "nltk_location" {

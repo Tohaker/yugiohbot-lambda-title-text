@@ -19,6 +19,7 @@ before_install:
   - sudo mv terraform /usr/local/bin/
   - terraform --version
   - pip install -r requirements.txt
+  - pip install --user awscli
   - python -m nltk.downloader punkt averaged_perceptron_tagger wordnet
 
 install:

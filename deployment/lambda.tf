@@ -1,6 +1,7 @@
 resource "aws_lambda_function" "title_text" {
-  filename          = var.package
-  source_code_hash  = filebase64sha256(var.package)
+  s3_bucket         = var.bucket
+  s3_key            = var.s3_package
+  source_code_hash  = filebase64sha256(var.local_package)
   handler           = var.handler
 
   function_name     = local.lambda_title_text_name
@@ -8,6 +9,8 @@ resource "aws_lambda_function" "title_text" {
   
   runtime           = var.runtime
   timeout           = 60
+
+  memory_size       = 512
 
   environment {
     variables = {
@@ -23,7 +26,7 @@ resource "aws_cloudwatch_log_group" "title_text" {
 resource "aws_cloudwatch_event_rule" "every_hour" {
   name                = "every-hour"
   description         = "Triggers every hour"
-  schedule_expression = "cron(0 * * * *)"
+  schedule_expression = "cron(0 * * * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "every_hour" {
