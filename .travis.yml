@@ -2,6 +2,10 @@ language: python
 python:
   - "3.7"
 
+stages:
+  - name: after_script
+    if: branch = master
+
 env:
   - PYTHONPATH=yugiohbot
 
