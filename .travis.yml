@@ -33,13 +33,11 @@ install:
   - cp -a ~/nltk_data/. package/nltk_data/
   - cp -a yugiohbot/. package/
   - zip -r package package/.
-  - chmod +x ./integration.sh
   - chmod +x ./deployment/deploy.sh
   - docker pull lambci/lambda:python3.7
 
 script:
   - pytest --cov=./ --ignore=package
-  - ./integration.sh
   - codecov
 
 after_script:
