@@ -1,5 +1,6 @@
 from text import *
 from title import *
+import requests
 
 
 def lambda_handler(event, context):
@@ -13,6 +14,8 @@ def lambda_handler(event, context):
 
     result = {'title': card_title, 'text': card_text}
     print(result)
+
+    requests.get('https://card-generator-t4loex5l4q-ue.a.run.app/', params=result, timeout=120)
 
     return result
 

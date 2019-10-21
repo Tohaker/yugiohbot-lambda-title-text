@@ -1,4 +1,5 @@
 nltk
 textblob
+requests
 pytest-cov
 codecov
